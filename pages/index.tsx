@@ -4,67 +4,36 @@ import Image from 'next/image'
 
 const Home: NextPage = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="flex min-h-screen flex-col py-2">
       <Head>
-        <title>Create Next App</title>
+        <title>LOGICST</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
-
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <main className="grid w-full flex-1 grid-cols-2 flex-col justify-center gap-2 px-10 pb-2 text-center">
+        <div className="col-span-1 grid grid-rows-6 gap-2">
+          <div className="row-span-4 grid grid-rows-5 rounded-sm border-2 border-black/30 bg-yellow-50">
+            <div className="row-span-3">
+              <h1>Offers</h1>
+              <p>Show list of offered order</p>
+            </div>
+            <div className="row-span-2">
+              <p>Transaction Hist + Status</p>
+            </div>
+          </div>
+          <div className="row-span-2 rounded-sm border-2 border-black/30 bg-green-50">
+            <h1>Contract</h1>
+            <p>show number of account|user</p>
+            <p>total transaction (freeze/paid)</p>
+          </div>
+        </div>
+        <div className="col-span-1 grid grid-rows-2 gap-2">
+          <div className="row-span-1 rounded-sm border-2 border-black/30 bg-red-50">
+            Merchant
+          </div>
+          <div className="row-span-1 rounded-sm border-2 border-black/30 bg-purple-50">
+            Logistic
+          </div>
         </div>
       </main>
 
