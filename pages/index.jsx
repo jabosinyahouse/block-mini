@@ -4,8 +4,7 @@ import Image from 'next/image'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import addressShorterner from '../utils/helpers'
-import { ABI, ADDRESS, DUMP_PRODUCTS } from '../utils/constants'
-
+import { ABI, ADDRESS, DUMP_PRODUCTS, DUMP_ETH_PRICE } from '../utils/constants'
 let logicstContract
 
 const Home = () => {
@@ -26,9 +25,13 @@ const Home = () => {
   // }
 
   async function submitOrderItem(data, merchantAddress) {
-    const tx = await logicstContract.orderItem(data, merchantAddress, {
-      value: ethers.utils.parseEther('0.000000154486'),
-    })
+    const tx = await logicstContract.orderItem(
+      JSON.stringify(data, null, 2),
+      merchantAddress,
+      {
+        value: ethers.utils.parseEther(DUMP_ETH_PRICE / data.unitPrice),
+      }
+    )
     await tx.wait()
     await getContractBalance()
     await getAllOrderedItem()
@@ -125,7 +128,7 @@ const Home = () => {
                           <Link href={each.infoUrl}>
                             <a
                               target="_blank"
-                              className="my-1.5 rounded-md py-0.5 px-0.5 text-sm font-bold text-indigo-300 underline underline-offset-2 hover:text-indigo-500"
+                              className="my-1.5 rounded-md py-0.5 px-0.5 text-sm font-bold text-rose-300 underline underline-offset-2 hover:text-rose-500"
                             >
                               Specs
                             </a>
@@ -162,7 +165,7 @@ const Home = () => {
                                       onClick={async () => {
                                         setIsMakeTransactionLoading(true)
                                         await submitOrderItem(
-                                          JSON.stringify(each, null, 2),
+                                          each,
                                           each.address
                                         )
                                         setToggleModal(!toggleModal)
@@ -206,21 +209,24 @@ const Home = () => {
             <div className="absolute top-0 left-0 rounded-sm border-b border-r bg-rose-500 px-3 py-1 font-bold tracking-wider text-black/90">
               <p>CONTRACT</p>
             </div>
-            <div className="flex h-full w-full flex-col">
-              <div className="ml-32 flex h-9 items-center justify-between">
-                <h1 className="text-xl font-bold">LOG.</h1>
+            <div className="flex h-full w-full flex-col pb-8">
+              <div className="ml-32 flex h-10 items-center justify-between">
+                <h1 className="py-1 text-base font-bold">LOG.</h1>
               </div>
 
-              <div className="grid-row-1 grid h-full grid-cols-3  overflow-y-scroll shadow-lg shadow-rose-500/10">
-                <div className="col-span-2 border pl-2 pt-2 text-left text-xs">
+              <div className="grid-row-1 grid h-full grid-cols-3 shadow-lg shadow-rose-500/10">
+                <div className="col-span-2 overflow-y-scroll border-r border-t pl-1.5 pt-1.5 text-left text-xs">
                   {contractOrderList !== null &&
                     contractOrderList.map((each, index) => (
-                      <div key={index} className="">
-                        <p className="text-rose-600">
-                          {'>>'} {new Date(each.atDate).toLocaleString()}
-                        </p>
+                      <div key={index}>
                         <div className="flex flex-row">
-                          <p className="pr-1.5 text-rose-600">{'>>'}</p>
+                          <p className="pr-2 text-indigo-600">{'>>>'}</p>
+                          <p className="pr-1.5 text-rose-600">
+                            {new Date(each.atDate).toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="flex flex-row">
+                          <p className="pr-2 text-indigo-600">{'>>>'}</p>
                           <p className="pr-1.5 text-rose-600">info: </p>
                           <p className="text-neutral-600">
                             {JSON.stringify(each, null, 2)}
@@ -229,17 +235,22 @@ const Home = () => {
                       </div>
                     ))}
                 </div>
-                <div className="col-span-1 flex flex-col items-start justify-center gap-0.5 pl-4 text-left text-xs uppercase tracking-wider">
+                <div className="col-span-1 flex flex-col items-start justify-start gap-0.5 pt-4 pl-4 text-left text-xs uppercase tracking-wider">
                   <h1>CONTRACT ADDRESS:</h1>
                   <p className="pl-1.5 font-bold text-rose-600">{ADDRESS}</p>
-                  <h1>CURRENT CONTRACT BALANCE:</h1>
+                  <h1 className="pt-2">CURRENT BALANCE IN: </h1>
                   <p className="pl-1.5 font-bold text-rose-600">
-                    {contractBalance} WEI
+                    WEI: {contractBalance}
                   </p>
-                  <h1>TOTAL ORDER:</h1>
                   <p className="pl-1.5 font-bold text-rose-600">
-                    {orderCounter} orders
+                    ETH: {ethers.utils.formatEther(contractBalance)}
                   </p>
+                  <h1 className="pt-2">
+                    TOTAL ORDER:{' '}
+                    <span className="font-bold text-rose-600">
+                      {orderCounter}
+                    </span>
+                  </h1>
                 </div>
               </div>
             </div>

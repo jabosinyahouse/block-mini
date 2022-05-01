@@ -17,9 +17,61 @@ export const DUMP_PRODUCTS = [
     minOrder: 30,
     unitPrice: 1899,
   },
+  {
+    fromCop: 'Apple Inc.',
+    address: '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4',
+    name: 'Macbook Pro (2021) 14"',
+    options: [{ capacity: '256GB' }, { color: 'White' }],
+    infoUrl: 'https://www.apple.com/macbook-pro-14-and-16/specs/',
+    minOrder: 30,
+    unitPrice: 1899,
+  },
+  {
+    fromCop: 'Apple Inc.',
+    address: '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4',
+    name: 'Macbook Pro (2021) 14"',
+    options: [{ capacity: '256GB' }, { color: 'White' }],
+    infoUrl: 'https://www.apple.com/macbook-pro-14-and-16/specs/',
+    minOrder: 30,
+    unitPrice: 1899,
+  },
+  {
+    fromCop: 'Apple Inc.',
+    address: '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4',
+    name: 'Macbook Pro (2021) 14"',
+    options: [{ capacity: '256GB' }, { color: 'White' }],
+    infoUrl: 'https://www.apple.com/macbook-pro-14-and-16/specs/',
+    minOrder: 30,
+    unitPrice: 1899,
+  },
+  {
+    fromCop: 'Apple Inc.',
+    address: '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4',
+    name: 'Macbook Pro (2021) 14"',
+    options: [{ capacity: '256GB' }, { color: 'White' }],
+    infoUrl: 'https://www.apple.com/macbook-pro-14-and-16/specs/',
+    minOrder: 30,
+    unitPrice: 1899,
+  },
+  {
+    fromCop: 'Apple Inc.',
+    address: '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4',
+    name: 'Macbook Pro (2021) 14"',
+    options: [{ capacity: '256GB' }, { color: 'White' }],
+    infoUrl: 'https://www.apple.com/macbook-pro-14-and-16/specs/',
+    minOrder: 30,
+    unitPrice: 1899,
+  },
+  {
+    fromCop: 'Apple Inc.',
+    address: '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4',
+    name: 'Macbook Pro (2021) 14"',
+    options: [{ capacity: '256GB' }, { color: 'White' }],
+    infoUrl: 'https://www.apple.com/macbook-pro-14-and-16/specs/',
+    minOrder: 30,
+    unitPrice: 1899,
+  },
 ]
-
-export const ADDRESS = '0x82095c288E40E2131A88D0413143Eb657EbCEf05'
 
 export const ABI = [
   {
@@ -223,3 +275,7 @@ export const ABI = [
     type: 'function',
   },
 ]
+
+export const ADDRESS = '0x82095c288E40E2131A88D0413143Eb657EbCEf05'
+
+export const DUMP_ETH_PRICE = 2807.03
