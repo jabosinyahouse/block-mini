@@ -1,242 +1,19 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import Contract from '../components/Contract'
 import { ethers } from 'ethers'
+import { useEffect, useState } from 'react'
+import addressShorterner from '../utils/helpers'
+import { ABI, ADDRESS, DUMP_PRODUCTS } from '../utils/constants'
 
-const items = [
-  {
-    fromCop: 'Apple Inc.',
-    address: '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4',
-    name: 'iPad 10.2 (2021)',
-    options: [{ capacity: '64GB' }, { color: 'Grey' }],
-    infoUrl: 'https://www.apple.com/ipad-10.2/specs',
-    minOrder: 100,
-    unitPrice: 319,
-  },
-  {
-    fromCop: 'Apple Inc.',
-    address: '0x5B38Da6a701c568545dCfcB03FcB875f56beddC4',
-    name: 'Macbook Pro (2021) 14"',
-    options: [{ capacity: '256GB' }, { color: 'White' }],
-    infoUrl: 'https://www.apple.com/macbook-pro-14-and-16/specs/',
-    minOrder: 30,
-    unitPrice: 1899,
-  },
-]
-
-const ADDRESS = '0x82095c288E40E2131A88D0413143Eb657EbCEf05'
-
-const ABI = [
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: 'item',
-        type: 'string',
-      },
-      {
-        internalType: 'address',
-        name: 'mAddress',
-        type: 'address',
-      },
-    ],
-    name: 'orderItem',
-    outputs: [
-      {
-        components: [
-          {
-            internalType: 'uint256',
-            name: 'orderId',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address',
-            name: 'from',
-            type: 'address',
-          },
-          {
-            internalType: 'address',
-            name: 'to',
-            type: 'address',
-          },
-          {
-            internalType: 'string',
-            name: 'item',
-            type: 'string',
-          },
-          {
-            internalType: 'enum Logicst.OrderState',
-            name: 'orderState',
-            type: 'uint8',
-          },
-          {
-            internalType: 'uint256',
-            name: 'amount',
-            type: 'uint256',
-          },
-          {
-            internalType: 'uint256',
-            name: 'atDate',
-            type: 'uint256',
-          },
-        ],
-        internalType: 'struct Logicst.Order',
-        name: '',
-        type: 'tuple',
-      },
-    ],
-    stateMutability: 'payable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'transferToContract',
-    outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'getAllOrderedItem',
-    outputs: [
-      {
-        components: [
-          {
-            internalType: 'uint256',
-            name: 'orderId',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address',
-            name: 'from',
-            type: 'address',
-          },
-          {
-            internalType: 'address',
-            name: 'to',
-            type: 'address',
-          },
-          {
-            internalType: 'string',
-            name: 'item',
-            type: 'string',
-          },
-          {
-            internalType: 'enum Logicst.OrderState',
-            name: 'orderState',
-            type: 'uint8',
-          },
-          {
-            internalType: 'uint256',
-            name: 'amount',
-            type: 'uint256',
-          },
-          {
-            internalType: 'uint256',
-            name: 'atDate',
-            type: 'uint256',
-          },
-        ],
-        internalType: 'struct Logicst.Order[]',
-        name: '',
-        type: 'tuple[]',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'getContractBalance',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'index',
-        type: 'uint256',
-      },
-    ],
-    name: 'getOrderByIndex',
-    outputs: [
-      {
-        components: [
-          {
-            internalType: 'uint256',
-            name: 'orderId',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address',
-            name: 'from',
-            type: 'address',
-          },
-          {
-            internalType: 'address',
-            name: 'to',
-            type: 'address',
-          },
-          {
-            internalType: 'string',
-            name: 'item',
-            type: 'string',
-          },
-          {
-            internalType: 'enum Logicst.OrderState',
-            name: 'orderState',
-            type: 'uint8',
-          },
-          {
-            internalType: 'uint256',
-            name: 'amount',
-            type: 'uint256',
-          },
-          {
-            internalType: 'uint256',
-            name: 'atDate',
-            type: 'uint256',
-          },
-        ],
-        internalType: 'struct Logicst.Order',
-        name: '',
-        type: 'tuple',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'orderCounter',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-]
+let logicstContract
 
 const Home = () => {
-  let logicstContract
-
   const [contractBalance, setContractBalance] = useState(0)
   const [toggleModal, setToggleModal] = useState(false)
   const [contractOrderList, setContractOrderList] = useState([])
+  // const [isMakeTransactionLoading, setIsMakeTransactionLoading] =
+  //   useState(false)
 
   useEffect(() => {
     async function connect() {
@@ -244,8 +21,8 @@ const Home = () => {
       await provider.send('eth_requestAccounts', [])
       const signer = provider.getSigner()
       logicstContract = new ethers.Contract(ADDRESS, ABI, signer)
-      getContractBalance()
-      getAllOrderedItem()
+      await getContractBalance()
+      await getAllOrderedItem()
     }
     connect()
   }, [])
@@ -262,6 +39,7 @@ const Home = () => {
     await tx.wait()
     console.log('Order successful!')
     await getContractBalance()
+    await getAllOrderedItem()
   }
 
   const getAllOrderedItem = async () => {
@@ -277,7 +55,7 @@ const Home = () => {
         item: JSON.parse(res.item),
         state: res.orderState,
         quantity: parseFloat(res.amount, 16),
-        atDate: new Date(parseFloat(res.at, 16)),
+        atDate: new Date(parseFloat(res.atDate, 16) * 1000).toISOString(),
       })
     }
     console.log(orderList)
@@ -286,21 +64,21 @@ const Home = () => {
   }
 
   return (
-    <div className="px-10 pt-8 text-neutral-100">
+    <div className="px-4 pt-4 text-neutral-100 ">
       <Head>
         <title>LOGICST</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="grid grid-cols-6 flex-col justify-center gap-4 px-10 pb-8 text-center">
-        <div className="col-start-2 col-end-6 grid grid-rows-6 gap-4">
-          <div className="row-span-4 grid grid-rows-5 rounded-sm border border-neutral-200">
-            <div className="relative row-span-3 mx-10 h-5/6 items-center">
-              <div className="absolute top-0 -left-10 rounded-sm border-b border-r bg-indigo-500 px-3 py-1 font-bold tracking-wider text-black/90">
+      <main className="static flex justify-center gap-4 pb-8 text-center">
+        <div className="relative grid h-[86vh] w-[60vw] grid-rows-6 gap-4">
+          <div className="row-span-3 rounded-sm border border-neutral-200">
+            <div className="relative row-span-3 mx-10 h-5/6 items-center px-32">
+              <div className="absolute -top-2 -left-10 rounded-sm border-b border-r bg-indigo-400 px-3 py-1 font-bold tracking-wider text-black/90">
                 <p>USER</p>
               </div>
               <h1 className="my-2 text-xl font-bold">offers from tech comp.</h1>
-              <div className="container h-[29vh] overflow-x-hidden overflow-y-scroll rounded-md border">
+              <div className="container mb-2 h-[34vh] overflow-x-hidden overflow-y-scroll rounded-md border">
                 <table className="relative w-full">
                   <thead className="sticky top-0 text-neutral-200">
                     <tr className="divide-neutral-70 sticky top-0 divide-x border-neutral-200 text-xs font-bold">
@@ -317,13 +95,12 @@ const Home = () => {
                     </tr>
                   </thead>
                   <tbody className="static divide-y divide-neutral-200">
-                    {items.map((each, index) => (
+                    {DUMP_PRODUCTS.map((each, index) => (
                       <tr key={index} className="divide-x divide-neutral-200">
                         <td>
                           <p>{each.fromCop}</p>
                           <p className="text-xs">
-                            ({each.address.slice(0, 5)}....
-                            {each.address.slice(-6, -1)})
+                            ({addressShorterner(each.address)})
                           </p>
                           {/* <p>0x5B38Da6a701c568545dCfcB03FcB875f56beddC4</p> */}
                         </td>
@@ -339,7 +116,7 @@ const Home = () => {
                           <Link href={each.infoUrl}>
                             <a
                               target="_blank"
-                              className="my-1.5 rounded-md py-0.5 px-0.5 text-sm font-bold text-neutral-500 underline underline-offset-2 hover:text-indigo-500"
+                              className="my-1.5 rounded-md py-0.5 px-0.5 text-sm font-bold text-indigo-300 underline underline-offset-2 hover:text-indigo-500"
                             >
                               Specs
                             </a>
@@ -354,14 +131,14 @@ const Home = () => {
                           <div>
                             <button
                               onClick={() => setToggleModal(!toggleModal)}
-                              className="my-1.5 rounded-md border border-neutral-500 py-1 px-2 text-xs font-bold text-neutral-500 hover:border-indigo-500 hover:text-indigo-500"
+                              className="my-1.5 rounded-md border border-indigo-300 py-1 px-2 text-xs font-bold text-indigo-300 hover:border-indigo-500 hover:text-indigo-500"
                             >
                               Order
                             </button>
                             <div
                               className={`${
                                 toggleModal === true ? 'visible' : 'invisible'
-                              } absolute top-5 right-0 left-0 z-50`}
+                              } absolute top-10 right-0 left-0 z-50`}
                             >
                               <div className="relative flex h-1/5 flex-col items-center p-4 md:h-auto">
                                 <div className="relative flex w-4/5 flex-col items-center overflow-x-scroll rounded-lg border bg-black shadow-sm  shadow-indigo-500/50">
@@ -369,17 +146,20 @@ const Home = () => {
                                     Order Confirmation
                                   </h3>
                                   <p className="px-20 text-xs">
-                                    {JSON.stringify(each, null, '\t')}
+                                    {JSON.stringify(each, null, 2)}
                                   </p>
                                   <div className="flex items-center space-x-4 rounded-b border-gray-200 p-2 dark:border-gray-600">
                                     <button
-                                      onClick={async () =>
+                                      onClick={async () => {
+                                        setIsMakeTransactionLoading(true)
                                         await submitOrderItem(
-                                          JSON.stringify(each),
+                                          JSON.stringify(each, null, 2),
                                           each.address
                                         )
-                                      }
-                                      className="my-1.5 rounded-md border border-neutral-500 py-1.5 px-2 text-sm font-bold text-neutral-500 hover:border-indigo-500 hover:text-indigo-500"
+                                        setToggleModal(!toggleModal)
+                                        setIsMakeTransactionLoading(false)
+                                      }}
+                                      className="my-1.5 rounded-md border border-indigo-300 py-1.5 px-2 text-sm font-bold text-indigo-300 hover:border-indigo-500 hover:text-indigo-500"
                                     >
                                       Confirm
                                     </button>
@@ -387,7 +167,7 @@ const Home = () => {
                                       onClick={() =>
                                         setToggleModal(!toggleModal)
                                       }
-                                      className="my-1.5 rounded-md border border-neutral-500 py-1.5 px-2 text-sm font-bold text-neutral-500 hover:border-rose-500 hover:text-rose-500"
+                                      className="my-1.5 rounded-md border border-rose-300 py-1.5 px-2 text-sm font-bold text-rose-300 hover:border-rose-500 hover:text-rose-500"
                                     >
                                       Decline
                                     </button>
@@ -403,23 +183,44 @@ const Home = () => {
                 </table>
               </div>
             </div>
-            <div className="row-span-2">
-              <p>Transaction Hist + Status</p>
+          </div>
+          <div className="border-neutral-30 relative row-span-3 rounded-sm border">
+            <div className="absolute top-0 left-0 rounded-sm border-b border-r bg-rose-500 px-3 py-1 font-bold tracking-wider text-black/90">
+              <p>CONTRACT</p>
+            </div>
+            <div className="flex h-full w-full flex-col">
+              <div className="ml-32 flex h-9 items-center justify-between">
+                <h1 className="text-xl font-bold">LOG.</h1>
+                <h1 className="mr-4 text-xs uppercase tracking-wider text-rose-300">
+                  <strong>CONTRACT ADDRESS: </strong>
+                  <u>{addressShorterner(ADDRESS)}</u>
+                </h1>
+              </div>
+
+              <div className="grid-row-1 grid h-full grid-cols-3">
+                <div className="col-span-2 overflow-y-scroll border pl-2 pt-2 text-left text-xs">
+                  {contractOrderList.map((each, index) => (
+                    <div key={index} className="">
+                      <p className="text-rose-600">
+                        {'>>'} {each.atDate}
+                      </p>
+                      <div className="flex flex-row">
+                        <p className="pr-1.5 text-rose-600">{'>>'}</p>
+                        <p className="pr-1.5 text-rose-600">info: </p>
+                        <p className="text-neutral-600">
+                          {JSON.stringify(each, null, 2)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="col-span-1 flex items-center justify-center">
+                  <h1>Balances: {contractBalance}</h1>
+                </div>
+              </div>
             </div>
           </div>
-          <Contract
-            contractBalance={contractBalance}
-            contractOrderList={contractOrderList}
-          />
         </div>
-        {/* <div className="col-span-1 grid grid-rows-2 gap-4">
-          <div className="border-neutral-30 row-span-1 rounded-sm border bg-red-50">
-            Merchant
-          </div>
-          <div className="border-neutral-30 row-span-1 rounded-sm border bg-purple-50">
-            Logistic
-          </div>
-        </div> */}
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
