@@ -4,9 +4,9 @@ import React from 'react'
 const Navbar = () => {
   return (
     <nav>
-      <div className="container mx-auto flex h-[10vh] items-center justify-between border-b border-black/50">
+      <div className="border-black/ container mx-auto flex h-[10vh] items-center justify-between border-b">
         <Link href="/">
-          <a className="text-2xl">LOGICST</a>
+          <a className="text-2xl text-neutral-100">LOGICST</a>
         </Link>
         <div className="">
           {/* <ul className="mt-4 flex flex-col md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium">
@@ -31,7 +31,7 @@ const Navbar = () => {
               </Link>
             </li>
           </ul> */}
-          <button className="rounded-sm border-2 border-black/80 px-2 py-1 text-xs font-bold uppercase text-black/90">
+          <button className="rounded-md border-2 border-neutral-400 px-2 py-1 text-xs font-bold uppercase text-neutral-200">
             Connect to Metamask
           </button>
         </div>

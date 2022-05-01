@@ -7,7 +7,7 @@ interface props {
 
 const Layout: React.FC<props> = ({ children }) => {
   return (
-    <div className="font-mono">
+    <div className="bg-black font-mono">
       <Navbar></Navbar>
       {children}
     </div>
