@@ -23,74 +23,6 @@ export const ADDRESS = '0x82095c288E40E2131A88D0413143Eb657EbCEf05'
 
 export const ABI = [
   {
-    inputs: [
-      {
-        internalType: 'string',
-        name: 'item',
-        type: 'string',
-      },
-      {
-        internalType: 'address',
-        name: 'mAddress',
-        type: 'address',
-      },
-    ],
-    name: 'orderItem',
-    outputs: [
-      {
-        components: [
-          {
-            internalType: 'uint256',
-            name: 'orderId',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address',
-            name: 'from',
-            type: 'address',
-          },
-          {
-            internalType: 'address',
-            name: 'to',
-            type: 'address',
-          },
-          {
-            internalType: 'string',
-            name: 'item',
-            type: 'string',
-          },
-          {
-            internalType: 'enum Logicst.OrderState',
-            name: 'orderState',
-            type: 'uint8',
-          },
-          {
-            internalType: 'uint256',
-            name: 'amount',
-            type: 'uint256',
-          },
-          {
-            internalType: 'uint256',
-            name: 'atDate',
-            type: 'uint256',
-          },
-        ],
-        internalType: 'struct Logicst.Order',
-        name: '',
-        type: 'tuple',
-      },
-    ],
-    stateMutability: 'payable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'transferToContract',
-    outputs: [],
-    stateMutability: 'payable',
-    type: 'function',
-  },
-  {
     inputs: [],
     name: 'getAllOrderedItem',
     outputs: [
@@ -220,6 +152,74 @@ export const ABI = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: 'item',
+        type: 'string',
+      },
+      {
+        internalType: 'address',
+        name: 'mAddress',
+        type: 'address',
+      },
+    ],
+    name: 'orderItem',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'orderId',
+            type: 'uint256',
+          },
+          {
+            internalType: 'address',
+            name: 'from',
+            type: 'address',
+          },
+          {
+            internalType: 'address',
+            name: 'to',
+            type: 'address',
+          },
+          {
+            internalType: 'string',
+            name: 'item',
+            type: 'string',
+          },
+          {
+            internalType: 'enum Logicst.OrderState',
+            name: 'orderState',
+            type: 'uint8',
+          },
+          {
+            internalType: 'uint256',
+            name: 'amount',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'atDate',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct Logicst.Order',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'transferToContract',
+    outputs: [],
+    stateMutability: 'payable',
     type: 'function',
   },
 ]

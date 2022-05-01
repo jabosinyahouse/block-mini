@@ -12,40 +12,34 @@ const Home = () => {
   const [contractBalance, setContractBalance] = useState(0)
   const [toggleModal, setToggleModal] = useState(false)
   const [contractOrderList, setContractOrderList] = useState([])
-  // const [isMakeTransactionLoading, setIsMakeTransactionLoading] =
-  //   useState(false)
-
-  useEffect(() => {
-    async function connect() {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      await provider.send('eth_requestAccounts', [])
-      const signer = provider.getSigner()
-      logicstContract = new ethers.Contract(ADDRESS, ABI, signer)
-      await getContractBalance()
-      await getAllOrderedItem()
-    }
-    connect()
-  }, [])
-
-  const getContractBalance = async () => {
+  const [isMakeTransactionLoading, setIsMakeTransactionLoading] =
+    useState(false)
+  const [orderCounter, setOrderCounter] = useState(0)
+  async function getContractBalance() {
     const tx = await logicstContract.getContractBalance()
     setContractBalance(parseFloat(tx, 16))
   }
 
-  const submitOrderItem = async (data, merchantAddress) => {
+  // async function getOrderCounter() {
+  //   const tx = await logicstContract.orderCounter()
+  //   setOrderCounter(parseFloat(tx, 16))
+  // }
+
+  async function submitOrderItem(data, merchantAddress) {
     const tx = await logicstContract.orderItem(data, merchantAddress, {
       value: ethers.utils.parseEther('0.000000154486'),
     })
     await tx.wait()
-    console.log('Order successful!')
     await getContractBalance()
     await getAllOrderedItem()
   }
 
-  const getAllOrderedItem = async () => {
-    const count = await logicstContract.orderCounter()
+  async function getAllOrderedItem() {
+    let counter = await logicstContract.orderCounter()
+    counter = parseFloat(counter, 16)
+    setOrderCounter(counter)
     let orderList = []
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < counter; i++) {
       const res = await logicstContract.getOrderByIndex(i)
       console.log(res)
       orderList.push({
@@ -55,13 +49,28 @@ const Home = () => {
         item: JSON.parse(res.item),
         state: res.orderState,
         quantity: parseFloat(res.amount, 16),
-        atDate: new Date(parseFloat(res.atDate, 16) * 1000).toISOString(),
+        atDate: new Date(parseFloat(res.atDate, 16) * 1000),
       })
     }
-    console.log(orderList)
-    // }
-    setContractOrderList(orderList)
+    const sortedOrder = orderList.sort((a, b) => {
+      return b.atDate - a.atDate
+    })
+    return setContractOrderList(sortedOrder)
   }
+
+  async function connect() {
+    let provider = new ethers.providers.Web3Provider(window.ethereum)
+    await provider.send('eth_requestAccounts', [])
+    let signer = provider.getSigner()
+    logicstContract = new ethers.Contract(ADDRESS, ABI, signer)
+    console.log('in connect')
+    await getContractBalance()
+    await getAllOrderedItem()
+  }
+
+  useEffect(() => {
+    connect()
+  }, [])
 
   return (
     <div className="px-4 pt-4 text-neutral-100 ">
@@ -72,8 +81,8 @@ const Home = () => {
 
       <main className="static flex justify-center gap-4 pb-8 text-center">
         <div className="relative grid h-[86vh] w-[60vw] grid-rows-6 gap-4">
-          <div className="row-span-3 rounded-sm border border-neutral-200">
-            <div className="relative row-span-3 mx-10 h-5/6 items-center px-32">
+          <div className="row-span-3 rounded-sm border border-neutral-200 shadow-lg shadow-indigo-500/20">
+            <div className="relative row-span-3 mx-10 h-5/6 items-center px-32 ">
               <div className="absolute -top-2 -left-10 rounded-sm border-b border-r bg-indigo-400 px-3 py-1 font-bold tracking-wider text-black/90">
                 <p>USER</p>
               </div>
@@ -159,9 +168,18 @@ const Home = () => {
                                         setToggleModal(!toggleModal)
                                         setIsMakeTransactionLoading(false)
                                       }}
-                                      className="my-1.5 rounded-md border border-indigo-300 py-1.5 px-2 text-sm font-bold text-indigo-300 hover:border-indigo-500 hover:text-indigo-500"
+                                      className="my-1.5  flex w-24 justify-center rounded-md border border-indigo-300 py-1.5 text-sm font-bold text-indigo-300 hover:border-indigo-500 hover:text-indigo-500"
                                     >
-                                      Confirm
+                                      <svg
+                                        className={`${
+                                          isMakeTransactionLoading === true
+                                            ? 'visible'
+                                            : 'invisible'
+                                        } absolute left-[18.7rem] top-[8.4rem] h-3 w-3 animate-pulse rounded-full bg-indigo-300`}
+                                      ></svg>
+                                      {isMakeTransactionLoading === true
+                                        ? 'Processing'
+                                        : 'Confirm'}
                                     </button>
                                     <button
                                       onClick={() =>
@@ -191,31 +209,37 @@ const Home = () => {
             <div className="flex h-full w-full flex-col">
               <div className="ml-32 flex h-9 items-center justify-between">
                 <h1 className="text-xl font-bold">LOG.</h1>
-                <h1 className="mr-4 text-xs uppercase tracking-wider text-rose-300">
-                  <strong>CONTRACT ADDRESS: </strong>
-                  <u>{addressShorterner(ADDRESS)}</u>
-                </h1>
               </div>
 
-              <div className="grid-row-1 grid h-full grid-cols-3">
-                <div className="col-span-2 overflow-y-scroll border pl-2 pt-2 text-left text-xs">
-                  {contractOrderList.map((each, index) => (
-                    <div key={index} className="">
-                      <p className="text-rose-600">
-                        {'>>'} {each.atDate}
-                      </p>
-                      <div className="flex flex-row">
-                        <p className="pr-1.5 text-rose-600">{'>>'}</p>
-                        <p className="pr-1.5 text-rose-600">info: </p>
-                        <p className="text-neutral-600">
-                          {JSON.stringify(each, null, 2)}
+              <div className="grid-row-1 grid h-full grid-cols-3  overflow-y-scroll shadow-lg shadow-rose-500/10">
+                <div className="col-span-2 border pl-2 pt-2 text-left text-xs">
+                  {contractOrderList !== null &&
+                    contractOrderList.map((each, index) => (
+                      <div key={index} className="">
+                        <p className="text-rose-600">
+                          {'>>'} {new Date(each.atDate).toLocaleString()}
                         </p>
+                        <div className="flex flex-row">
+                          <p className="pr-1.5 text-rose-600">{'>>'}</p>
+                          <p className="pr-1.5 text-rose-600">info: </p>
+                          <p className="text-neutral-600">
+                            {JSON.stringify(each, null, 2)}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
-                <div className="col-span-1 flex items-center justify-center">
-                  <h1>Balances: {contractBalance}</h1>
+                <div className="col-span-1 flex flex-col items-start justify-center gap-0.5 pl-4 text-left text-xs uppercase tracking-wider">
+                  <h1>CONTRACT ADDRESS:</h1>
+                  <p className="pl-1.5 font-bold text-rose-600">{ADDRESS}</p>
+                  <h1>CURRENT CONTRACT BALANCE:</h1>
+                  <p className="pl-1.5 font-bold text-rose-600">
+                    {contractBalance} WEI
+                  </p>
+                  <h1>TOTAL ORDER:</h1>
+                  <p className="pl-1.5 font-bold text-rose-600">
+                    {orderCounter} orders
+                  </p>
                 </div>
               </div>
             </div>
