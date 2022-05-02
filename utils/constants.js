@@ -15,7 +15,7 @@ export const DUMP_PRODUCTS = [
     options: [{ capacity: '256GB' }, { color: 'White' }],
     infoUrl: 'https://www.apple.com/macbook-pro-14-and-16/specs/',
     minOrder: 30,
-    unitPrice: 1899,
+    unitPrice: 189,
   },
   {
     fromCop: 'Apple Inc.',
@@ -276,6 +276,6 @@ export const ABI = [
   },
 ]
 
-export const ADDRESS = '0x82095c288E40E2131A88D0413143Eb657EbCEf05'
+export const ADDRESS = '0x7C71C87362555808E1D19dB77168E6cC6854FF8a'
 
 export const DUMP_ETH_PRICE = 2807.03

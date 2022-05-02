@@ -8,7 +8,7 @@ const Navbar = () => {
         <Link href="/">
           <a className="text-2xl text-neutral-100">LOGICST</a>
         </Link>
-        <div className="">
+        <div className="flex flex-col items-center">
           {/* <ul className="mt-4 flex flex-col md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium">
             <li>
               <Link href="/contract">
@@ -31,9 +31,12 @@ const Navbar = () => {
               </Link>
             </li>
           </ul> */}
-          <button className="rounded-md border-2 border-neutral-400 px-2 py-1 text-xs font-bold uppercase text-neutral-200">
-            Connect to Metamask
+          <button className="rounded-md border-2 border-neutral-400/25 px-2 py-1 text-xs font-bold uppercase text-neutral-200/25">
+            <s>Connect to Metamask</s>
           </button>
+          <p className="animate-pulse pt-1 text-xs font-bold text-rose-500/80">
+            UNAVAILABLE
+          </p>
         </div>
       </div>
     </nav>

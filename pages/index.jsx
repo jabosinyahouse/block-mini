@@ -14,22 +14,22 @@ const Home = () => {
   const [isMakeTransactionLoading, setIsMakeTransactionLoading] =
     useState(false)
   const [orderCounter, setOrderCounter] = useState(0)
+  const [submitData, setSubmitData] = useState({})
   async function getContractBalance() {
     const tx = await logicstContract.getContractBalance()
     setContractBalance(parseFloat(tx, 16))
   }
 
-  // async function getOrderCounter() {
-  //   const tx = await logicstContract.orderCounter()
-  //   setOrderCounter(parseFloat(tx, 16))
-  // }
-
-  async function submitOrderItem(data, merchantAddress) {
+  async function submitOrderItem() {
+    console.log(submitData)
     const tx = await logicstContract.orderItem(
-      JSON.stringify(data, null, 2),
-      merchantAddress,
+      JSON.stringify(submitData),
+      submitData.address,
       {
-        value: ethers.utils.parseEther(DUMP_ETH_PRICE / data.unitPrice),
+        value: ethers.utils.parseUnits(
+          (DUMP_ETH_PRICE / submitData.unitPrice / 1000).toString(),
+          'ether'
+        ),
       }
     )
     await tx.wait()
@@ -40,7 +40,9 @@ const Home = () => {
   async function getAllOrderedItem() {
     let counter = await logicstContract.orderCounter()
     counter = parseFloat(counter, 16)
-    setOrderCounter(counter)
+    setOrderCounter(() => {
+      return counter
+    })
     let orderList = []
     for (let i = 0; i < counter; i++) {
       const res = await logicstContract.getOrderByIndex(i)
@@ -142,7 +144,12 @@ const Home = () => {
                         <td className="p-2">
                           <div>
                             <button
-                              onClick={() => setToggleModal(!toggleModal)}
+                              onClick={() => {
+                                setToggleModal(!toggleModal)
+                                setSubmitData(() => {
+                                  return each
+                                })
+                              }}
                               className="my-1.5 rounded-md border border-indigo-300 py-1 px-2 text-xs font-bold text-indigo-300 hover:border-indigo-500 hover:text-indigo-500"
                             >
                               Order
@@ -158,18 +165,21 @@ const Home = () => {
                                     Order Confirmation
                                   </h3>
                                   <p className="px-20 text-xs">
-                                    {JSON.stringify(each, null, 2)}
+                                    {JSON.stringify(submitData, null, 2)}
                                   </p>
                                   <div className="flex items-center space-x-4 rounded-b border-gray-200 p-2 dark:border-gray-600">
                                     <button
                                       onClick={async () => {
-                                        setIsMakeTransactionLoading(true)
-                                        await submitOrderItem(
-                                          each,
-                                          each.address
-                                        )
-                                        setToggleModal(!toggleModal)
-                                        setIsMakeTransactionLoading(false)
+                                        setIsMakeTransactionLoading(() => {
+                                          return true
+                                        })
+                                        await submitOrderItem()
+                                        setToggleModal(() => {
+                                          return !toggleModal
+                                        })
+                                        setIsMakeTransactionLoading(() => {
+                                          return false
+                                        })
                                       }}
                                       className="my-1.5  flex w-24 justify-center rounded-md border border-indigo-300 py-1.5 text-sm font-bold text-indigo-300 hover:border-indigo-500 hover:text-indigo-500"
                                     >
@@ -178,16 +188,21 @@ const Home = () => {
                                           isMakeTransactionLoading === true
                                             ? 'visible'
                                             : 'invisible'
-                                        } absolute left-[18.7rem] top-[8.4rem] h-3 w-3 animate-pulse rounded-full bg-indigo-300`}
+                                        } absolute left-[18.7rem] top-[8.44rem] h-3 w-3 animate-pulse rounded-full bg-indigo-300`}
                                       ></svg>
                                       {isMakeTransactionLoading === true
                                         ? 'Processing'
                                         : 'Confirm'}
                                     </button>
                                     <button
-                                      onClick={() =>
-                                        setToggleModal(!toggleModal)
-                                      }
+                                      onClick={() => {
+                                        setToggleModal(() => {
+                                          return !toggleModal
+                                        })
+                                        setIsMakeTransactionLoading(() => {
+                                          return false
+                                        })
+                                      }}
                                       className="my-1.5 rounded-md border border-rose-300 py-1.5 px-2 text-sm font-bold text-rose-300 hover:border-rose-500 hover:text-rose-500"
                                     >
                                       Decline
@@ -209,14 +224,14 @@ const Home = () => {
             <div className="absolute top-0 left-0 rounded-sm border-b border-r bg-rose-500 px-3 py-1 font-bold tracking-wider text-black/90">
               <p>CONTRACT</p>
             </div>
-            <div className="flex h-full w-full flex-col pb-8">
-              <div className="ml-32 flex h-10 items-center justify-between">
+            <div className="flex h-full w-full flex-col">
+              <div className="ml-32 flex h-8 items-center justify-between">
                 <h1 className="py-1 text-base font-bold">LOG.</h1>
               </div>
 
-              <div className="grid-row-1 grid h-full grid-cols-3 shadow-lg shadow-rose-500/10">
+              <div className="grid-row-1 grid h-[39.2vh] grid-cols-3 shadow-lg shadow-rose-500/10">
                 <div className="col-span-2 overflow-y-scroll border-r border-t pl-1.5 pt-1.5 text-left text-xs">
-                  {contractOrderList !== null &&
+                  {contractOrderList &&
                     contractOrderList.map((each, index) => (
                       <div key={index}>
                         <div className="flex flex-row">
@@ -243,7 +258,7 @@ const Home = () => {
                     WEI: {contractBalance}
                   </p>
                   <p className="pl-1.5 font-bold text-rose-600">
-                    ETH: {ethers.utils.formatEther(contractBalance)}
+                    ETH: {ethers.utils.formatEther(contractBalance.toString())}
                   </p>
                   <h1 className="pt-2">
                     TOTAL ORDER:{' '}

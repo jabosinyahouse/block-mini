@@ -1,0 +1,121 @@
+<mxfile host="65bd71144e">
+    <diagram id="pIHYSaEljXnMS16BgE4O" name="Page-1">
+        <mxGraphModel dx="1374" dy="782" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0;entryY=0;entryDx=0;entryDy=118.78976131958493;entryPerimeter=0;exitX=0;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="3" target="6">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="208" y="372.94" as="sourcePoint"/>
+                        <mxPoint x="406.9999999999998" y="320.94" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" value="&lt;span style=&quot;font-size: 12px&quot;&gt;Create transaction to Logicst's Smart Contract&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="4">
+                    <mxGeometry x="-0.2433" y="1" relative="1" as="geometry">
+                        <mxPoint x="18" y="-86" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="29" style="edgeStyle=none;html=1;entryX=0.5;entryY=0.02;entryDx=0;entryDy=0;entryPerimeter=0;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1" target="27">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="279" y="173" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="31" value="Get the product" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#FF3333;" vertex="1" connectable="0" parent="29">
+                    <mxGeometry x="-0.2299" y="-2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="3" value="University" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="264" y="178.94" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="6" target="16">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="html=1;whiteSpace=wrap;shape=isoCube2;backgroundOutline=1;isoAngle=15;" vertex="1" parent="1">
+                    <mxGeometry x="516.5" y="390.94" width="130" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Logicst's Contract" style="swimlane;" vertex="1" parent="1">
+                    <mxGeometry x="526.5" y="454.94" width="110" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Contract attributes &lt;br&gt;and functionalities" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="7">
+                    <mxGeometry y="27" width="110" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=1;entryDx=0;entryDy=0;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1" source="6" target="36">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="BLOCKCHAIN" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="551.5" y="406.94" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1" source="16" target="19">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="Update order to merchant" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#FF3333;" vertex="1" connectable="0" parent="20">
+                    <mxGeometry x="-0.1943" y="-1" relative="1" as="geometry">
+                        <mxPoint y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="Freeze (keep) the money in the contract" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="521.5" y="650.94" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1" source="19" target="22">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Product's transfer process" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#FF3333;" vertex="1" connectable="0" parent="23">
+                    <mxGeometry x="-0.1291" y="-1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="Merchant" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontColor=#FF3333;strokeColor=#FF3333;" vertex="1" parent="1">
+                    <mxGeometry x="807" y="550.94" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" style="edgeStyle=orthogonalEdgeStyle;html=1;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="703" y="208.94" as="sourcePoint"/>
+                        <mxPoint x="279" y="178.94" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="703" y="143.94"/>
+                            <mxPoint x="279" y="143.94"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="Shipping the product" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#FF3333;" vertex="1" connectable="0" parent="25">
+                    <mxGeometry x="0.076" y="-4" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="22" value="Logistic" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontColor=#FF3333;strokeColor=#FF3333;" vertex="1" parent="1">
+                    <mxGeometry x="688" y="209.94" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Yes" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.733;exitY=0.754;exitDx=0;exitDy=0;exitPerimeter=0;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1" source="27" target="6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="Nah man" style="edgeStyle=none;html=1;exitX=0.502;exitY=0.978;exitDx=0;exitDy=0;exitPerimeter=0;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1" source="27">
+                    <mxGeometry x="-0.2006" relative="1" as="geometry">
+                        <mxPoint x="425" y="385.94" as="targetPoint"/>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="27" value="Satisfied?" style="html=1;whiteSpace=wrap;aspect=fixed;shape=isoRectangle;fontColor=#FF3333;strokeColor=#FF3333;" vertex="1" parent="1">
+                    <mxGeometry x="356" y="209.94" width="150" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" style="edgeStyle=none;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1" source="36" target="22">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" style="edgeStyle=none;html=1;fontColor=#FF3333;strokeColor=#FF3333;" edge="1" parent="1" source="36" target="19">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="812" y="554.94" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="822" y="586"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="36" value="Transfer Money" style="whiteSpace=wrap;html=1;fontColor=#FF3333;strokeColor=#FF3333;" vertex="1" parent="1">
+                    <mxGeometry x="617" y="322.94" width="85.5" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="Futher Process" style="rounded=1;whiteSpace=wrap;html=1;fontColor=#FF3333;strokeColor=#FF3333;" vertex="1" parent="1">
+                    <mxGeometry x="386" y="386.94" width="79" height="45" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
