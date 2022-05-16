@@ -8,13 +8,14 @@ import { ABI, ADDRESS, DUMP_PRODUCTS, DUMP_ETH_PRICE } from '../utils/constants'
 let logicstContract
 
 const Home = () => {
-  const [contractBalance, setContractBalance] = useState(0)
+  const [submitData, setSubmitData] = useState({})
   const [toggleModal, setToggleModal] = useState(false)
+  const [orderCounter, setOrderCounter] = useState(0)
+  const [contractBalance, setContractBalance] = useState(0)
   const [contractOrderList, setContractOrderList] = useState([])
   const [isMakeTransactionLoading, setIsMakeTransactionLoading] =
     useState(false)
-  const [orderCounter, setOrderCounter] = useState(0)
-  const [submitData, setSubmitData] = useState({})
+    
   async function getContractBalance() {
     const tx = await logicstContract.getContractBalance()
     setContractBalance(parseFloat(tx, 16))
